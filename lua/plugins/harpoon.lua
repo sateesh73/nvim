@@ -1,20 +1,45 @@
-local M = {
-    "ThePrimeagen/harpoon",
-    event = "VeryLazy",
-    dependencies = {
-        "nvim-lua/plenary.nvim"
-    },
-    config = function()
-        -- Set a vim motion to <Shift>m to mark a file with harpoon
-        vim.keymap.set("n", "<s-m>", "<cmd>lua require('plugins.harpoon').mark_file()<cr>", {desc = "Harpoon Mark File"})
-        -- Set a vim motion to the tab key to open the harpoon menu to easily navigate frequented files
-        vim.keymap.set("n", "<TAB>", "<cmd>lua require('harpoon.ui').toggle_quick_menu()<cr>", {desc = "Harpoon Toggle Menu"})
-    end
+return {
+	"ThePrimeagen/harpoon",
+	branch = "harpoon2",
+	opts = {
+		menu = {
+			width = vim.api.nvim_win_get_width(0) - 4,
+		},
+		settings = {
+			save_on_toggle = true,
+		},
+	},
+	keys = function()
+		local keys = {
+			-- Group: Harpoon
+			{
+				"<leader>ha",
+				function()
+					require("harpoon"):list():add()
+				end,
+				desc = "Harpoon: Add File",
+			},
+			{
+				"<leader>hm",
+				function()
+					local harpoon = require("harpoon")
+					harpoon.ui:toggle_quick_menu(harpoon:list())
+				end,
+				desc = "Harpoon: Quick Menu",
+			},
+		}
+
+		-- Jump to Harpoon files (1-5)
+		for i = 1, 5 do
+			table.insert(keys, {
+				"<leader>h" .. i,
+				function()
+					require("harpoon"):list():select(i)
+				end,
+				desc = "Harpoon: File " .. i,
+			})
+		end
+
+		return keys
+	end,
 }
-
-function M.mark_file()
-    require("harpoon.mark").add_file()
-    vim.notify "󱡅  marked file"
-end
-
-return M
