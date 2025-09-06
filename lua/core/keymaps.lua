@@ -16,13 +16,25 @@ vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" }
 -- vim.keymap.set('n', '<down>', '<cmd>echo "Use j to move!!"<CR>')
 
 -- Better window navigation
-vim.keymap.set("n", "<C-h>", ":wincmd h<cr>", { desc = "Move focus to the left window" })
-vim.keymap.set("n", "<C-l>", ":wincmd l<cr>", { desc = "Move focus to the right window" })
-vim.keymap.set("n", "<C-j>", ":wincmd j<cr>", { desc = "Move focus to the lower window" })
-vim.keymap.set("n", "<C-k>", ":wincmd k<cr>", { desc = "Move focus to the upper window" })
+-- vim.keymap.set("n", "<C-h>", ":wincmd h<cr>", { desc = "Move focus to the left window" })
+-- vim.keymap.set("n", "<C-l>", ":wincmd l<cr>", { desc = "Move focus to the right window" })
+-- vim.keymap.set("n", "<C-j>", ":wincmd j<cr>", { desc = "Move focus to the lower window" })
+-- vim.keymap.set("n", "<C-k>", ":wincmd k<cr>", { desc = "Move focus to the upper window" })
 
-vim.api.nvim_set_keymap("i", "jj", "<Esc>", { noremap = false })
-vim.api.nvim_set_keymap("i", "jk", "<Esc>", { noremap = false })
+vim.keymap.set("n", "<C-h>", function() vim.cmd.wincmd("h") end, { desc = "Move focus to the left window" })
+vim.keymap.set("n", "<C-l>", function() vim.cmd.wincmd("l") end, { desc = "Move focus to the right window" })
+vim.keymap.set("n", "<C-j>", function() vim.cmd.wincmd("j") end, { desc = "Move focus to the lower window" })
+vim.keymap.set("n", "<C-k>", function() vim.cmd.wincmd("k") end, { desc = "Move focus to the upper window" })
+
+-- vim.api.nvim_set_keymap("i", "jj", "<Esc>", { noremap = false })
+-- vim.api.nvim_set_keymap("i", "jk", "<Esc>", { noremap = false })
+
+-- vim motions
+vim.api.nvim_set_keymap("i", "jj", "<Esc>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("i", "jk", "<Esc>", { noremap = true, silent = true })
+vim.keymap.set("n", "qq", ":q<CR>", { noremap = true, silent = true, desc = "Quit file" })
+vim.keymap.set("n", "ww", ":w<CR>", { noremap = true, silent = true, desc = "Write file" })
+vim.keymap.set("n", "pp", "yyp", { noremap = true, silent = true, desc = "Duplicate line" })
 
 vim.keymap.set("n", "<leader>tc", ":tabnew<cr>", {desc = "[T]ab [C]reat New"})
 vim.keymap.set("n", "<leader>tn", ":tabnext<cr>", {desc = "[T]ab [N]ext"})
