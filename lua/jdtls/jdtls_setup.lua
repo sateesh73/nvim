@@ -2,8 +2,11 @@ local M = {}
 
 function M:setup()
     local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t")
-    local workspace_dir = vim.fn.stdpath("data") .. package.config:sub(1,1) .. "jdtls-workspace" .. package.config:sub(1,1) .. project_name
+    local workspace_dir = vim.fn.stdpath("data") ..
+        package.config:sub(1, 1) .. "jdtls-workspace" .. package.config:sub(1, 1) .. project_name
     local os_name = vim.loop.os_uname().sysname
+    -- Path to lombok jar (adjust if you keep it elsewhere)
+    local lombok_path = vim.fn.stdpath("data") .. "/mason/packages/jdtls/lombok.jar"
     local config = {
         -- The command that starts the language server
         -- See: https://github.com/eclipse/eclipse.jdt.ls#running-from-the-command-line
@@ -27,13 +30,30 @@ function M:setup()
 
             -- 💀
             "-jar",
-            vim.fn.stdpath("data") .. package.config:sub(1,1) .. "mason" .. package.config:sub(1,1) .. "packages" .. package.config:sub(1,1) .. "jdtls" .. package.config:sub(1,1) .. "plugins" .. package.config:sub(1,1) .. "org.eclipse.equinox.launcher_1.7.0.v20250519-0528.jar",
+            vim.fn.stdpath("data") ..
+            package.config:sub(1, 1) ..
+            "mason" ..
+            package.config:sub(1, 1) ..
+            "packages" ..
+            package.config:sub(1, 1) ..
+            "jdtls" ..
+            package.config:sub(1, 1) ..
+            "plugins" .. package.config:sub(1, 1) .. "org.eclipse.equinox.launcher_1.7.0.v20250519-0528.jar",
             -- Must point to the                                                     Change this to
             -- eclipse.jdt.ls installation                                           the actual version
-
+            "-javaagent:" .. lombok_path,
+            "-Xbootclasspath/a:" .. lombok_path,
             -- 💀
             "-configuration",
-            vim.fn.stdpath("data") .. package.config:sub(1,1) .. "mason" .. package.config:sub(1,1) .. "packages" .. package.config:sub(1,1) .. "jdtls" .. package.config:sub(1,1) .. "config_" .. (os_name == "Windows_NT" and "win" or os_name == "Linux" and "linux" or "mac"),
+            vim.fn.stdpath("data") ..
+            package.config:sub(1, 1) ..
+            "mason" ..
+            package.config:sub(1, 1) ..
+            "packages" ..
+            package.config:sub(1, 1) ..
+            "jdtls" ..
+            package.config:sub(1, 1) ..
+            "config_" .. (os_name == "Windows_NT" and "win" or os_name == "Linux" and "linux" or "mac"),
             -- eclipse.jdt.ls installation            Depending on your system.
 
             -- 💀
@@ -45,13 +65,17 @@ function M:setup()
         -- 💀
         -- This is the default if not provided, you can remove it. Or adjust as needed.
         -- One dedicated LSP server & client will be started per unique root_dir
-        root_dir = require("jdtls.setup").find_root({ ".git", "mvnw", "gradlew" }),
+        root_dir = require("jdtls.setup").find_root({ ".git", "mvnw", "gradlew", "pom.xml", "build.gradle" }),
 
         -- Here you can configure eclipse.jdt.ls specific settings
         -- See https://github.com/eclipse/eclipse.jdt.ls/wiki/Running-the-JAVA-LS-server-from-the-command-line#initialize-request
         -- for a list of options
         settings = {
-            java = {},
+            java = {
+                format = {
+                    enabled = true,
+                },
+            },
         },
 
         -- Language server `initializationOptions`

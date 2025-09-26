@@ -23,7 +23,6 @@ return {
             }
         }
     },
-    { 'Decodetalkers/csharpls-extended-lsp.nvim' },
     { 'mfussenegger/nvim-jdtls' },
     {
         'MeanderingProgrammer/render-markdown.nvim',
@@ -49,5 +48,24 @@ return {
         ft = "lua",
         opts = {},
         dependencies = { 'nvim-lua/plenary.nvim' }
-    }
+    },
+{
+  "elmcgill/springboot-nvim",
+  dependencies = {
+    "neovim/nvim-lspconfig",
+    "mfussenegger/nvim-jdtls",
+    "nvim-tree/nvim-tree.lua",
+    "mfussenegger/nvim-dap",
+    "rcarriga/nvim-dap-ui",
+  },
+  config = function()
+    -- --------------------------
+    -- Spring Boot setup
+    -- --------------------------
+    local ok_sb, springboot_nvim = pcall(require, "springboot-nvim")
+    if ok_sb then
+      springboot_nvim.setup({})
+    end
+  end,
+}
 }
