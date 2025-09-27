@@ -1,0 +1,11 @@
+{
+  "workspace.maxPreload": 20000,
+  "workspace.ignoreDir": [
+    ".git",
+    "node_modules",
+    "Documents",
+    "Downloads",
+    "Pictures",
+    "Videos"
+  ]
+}
