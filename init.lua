@@ -78,9 +78,10 @@ vim.keymap.set("n", "<BS>", close_buffer)
 vim.keymap.set("n", "<A-BS>", ":qa<CR>")
 vim.keymap.set("i", "jj", "<ESC>", { silent = true })
 vim.keymap.set("i", "jk", "<ESC>", { silent = true })
-vim.keymap.set("n", "pp", "yyp", { silent = true })
-vim.keymap.set("n", "qq", ":q<CR>", { noremap = true, silent = true, desc = "Quit file" })
-vim.keymap.set("n", "ww", ":w<CR>", { noremap = true, silent = true, desc = "Save file" })
+
+vim.keymap.set({ "n", "i" }, "pp", "<Esc>yyp", { noremap = true, silent = true, desc = "Duplicate line" })
+vim.keymap.set({ "n", "i" }, "qq", "<Esc>:q<CR>", { noremap = true, silent = true, desc = "Quit file" })
+vim.keymap.set({ "n", "i" }, "ww", "<Esc>:w<CR>", { noremap = true, silent = true, desc = "Save file" })
 --bufferline
 vim.keymap.set('n', '<A-,>', ':BufferLineCyclePrev<CR>')
 vim.keymap.set('n', '<A-.>', ':BufferLineCycleNext<CR>')
